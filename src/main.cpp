@@ -1,5 +1,4 @@
 #include "bytecode/Instruction.hpp"
-#include "machine/IProgram.hpp"
 #include "machine/Machine.hpp"
 #include "sample/fibonacci.hpp"
 #include <array>

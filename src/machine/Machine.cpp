@@ -1,11 +1,21 @@
 #include "machine/Machine.hpp"
-#include "machine/IProgram.hpp"
 
 
 
 Machine::Machine(size_t reg_count):
     m_reg (reg_count, 0)
 {
+    m_dispatch_table[static_cast<size_t>(OpCode::ADD)]  = add;
+    m_dispatch_table[static_cast<size_t>(OpCode::ADDC)] = addc;
+    m_dispatch_table[static_cast<size_t>(OpCode::EQ)]   = eq;
+    m_dispatch_table[static_cast<size_t>(OpCode::EQC)]  = eqc;
+    m_dispatch_table[static_cast<size_t>(OpCode::JMP)]  = jmp;
+    m_dispatch_table[static_cast<size_t>(OpCode::JMPC)] = jmpc;
+    m_dispatch_table[static_cast<size_t>(OpCode::NOP)]  = nop;
+    m_dispatch_table[static_cast<size_t>(OpCode::RET)]  = ret;
+    m_dispatch_table[static_cast<size_t>(OpCode::RETC)] = retc;
+    m_dispatch_table[static_cast<size_t>(OpCode::SET)]  = set;
+    m_dispatch_table[static_cast<size_t>(OpCode::SETC)] = setc;
 }
 
 
@@ -22,9 +32,15 @@ auto Machine::run() noexcept -> Nat
     }
     while (offset != 0);
 
-    if (compare_opcode(m_program[pc].code, OpCode::RET))
+    auto const& last_instruction = m_program[pc];
+
+    if (last_instruction.code == OpCode::RET)
     {
-        return _fetch_value(m_program[pc]);
+        return m_reg[last_instruction.rhs];
+    }
+    else if (last_instruction.code == OpCode::RETC)
+    {
+        return last_instruction.rhs;
     }
     else
     {
@@ -53,42 +69,98 @@ auto Machine::read(Regindex rN) const -> Nat
 auto Machine::_exec(Instruction const& instruction) noexcept -> pc_offset_t
 {
     auto const& [code, lhs, rhs] = instruction;
+    return
+       std::invoke(m_dispatch_table[static_cast<size_t>(code)], this, lhs, rhs);
+}
 
-    if (compare_opcode(code, OpCode::ADD))
-    {
-        m_reg[lhs] += _fetch_value(instruction);
-    }
-    else if (compare_opcode(code, OpCode::EQ))
-    {
-        if (m_reg[lhs] != rhs) {
-            return 2;
-        }
-    }
-    else if (compare_opcode(code, OpCode::JMP))
-    {
-        auto const value = _fetch_value(instruction);
 
-        return (std::int32_t(value) < 0)
-            ? value
-            : value+1;
-    }
-    else if (compare_opcode(code, OpCode::RET))
-    {
-        return 0;
-    }
-    else if (compare_opcode(code, OpCode::SET))
-    {
-        m_reg[lhs] = _fetch_value(instruction);
-    }
 
+////////////////////////////////////////////////////////////////////////////////
+Machine::pc_offset_t Machine::add(Regindex lhs, Nat rhs)
+{
+    m_reg[lhs] += m_reg[rhs];
     return 1;
 }
 
 
 
-auto Machine::_fetch_value(Instruction const& instruction) noexcept -> Nat
+Machine::pc_offset_t Machine::addc(Regindex lhs, Nat rhs)
 {
-    return (static_cast<u8_t>(instruction.code) & CONST_MASK)
-        ? instruction.rhs
-        : m_reg[instruction.rhs];
+    m_reg[lhs] += rhs;
+    return 1;
+}
+
+
+
+Machine::pc_offset_t Machine::eq(Regindex lhs, Nat rhs)
+{
+    if (m_reg[lhs] != m_reg[rhs]) {
+        return 2;
+    }
+    return 1;
+}
+
+
+
+Machine::pc_offset_t Machine::eqc(Regindex lhs, Nat rhs)
+{
+    if (m_reg[lhs] != rhs) {
+        return 2;
+    }
+    return 1;
+}
+
+
+
+Machine::pc_offset_t Machine::jmp(Regindex lhs, Nat rhs)
+{
+    return (std::int32_t(m_reg[rhs]) < 0)
+        ? m_reg[rhs]
+        : m_reg[rhs]+1;
+}
+
+
+
+Machine::pc_offset_t Machine::jmpc(Regindex lhs, Nat rhs)
+{
+    return (std::int32_t(rhs) < 0)
+        ? rhs
+        : rhs+1;
+}
+
+
+
+Machine::pc_offset_t Machine::nop(Regindex lhs, Nat rhs)
+{
+    return 1;
+}
+
+
+
+Machine::pc_offset_t Machine::ret(Regindex lhs, Nat rhs)
+{
+    return 0;
+}
+
+
+
+Machine::pc_offset_t Machine::retc(Regindex lhs, Nat rhs)
+{
+    return 0;
+}
+
+
+
+Machine::pc_offset_t Machine::set(Regindex lhs, Nat rhs)
+{
+    m_reg[lhs] = m_reg[rhs];
+    return 1;
+}
+
+
+
+Machine::pc_offset_t Machine::setc(Regindex lhs, Nat rhs)
+{
+    m_reg[lhs] = rhs;
+    return 1;
 }

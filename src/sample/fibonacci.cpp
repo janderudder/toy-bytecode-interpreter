@@ -25,6 +25,3 @@ std::array<Instruction, 11> fibonacci_program(Nat n)
         ret(R1)
     };
 }
-
-
-
