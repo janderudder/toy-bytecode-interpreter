@@ -9,8 +9,7 @@
 size_t parse_cl_args(int const argc, char** const argv)
 {
     if (argc < 2) {
-        std::cout << "Please pass a number as program argument.\n";
-        exit(0);
+        return -1;
     }
 
     size_t const n = std::atoi(argv[1]);
@@ -26,7 +25,8 @@ size_t parse_cl_args(int const argc, char** const argv)
 
 int main(int const argc, char** const argv)
 {
-    auto const n = parse_cl_args(argc, argv);
+    Nat n = parse_cl_args(argc, argv);
+    n = (n != Nat(-1)) ? n : 0;
 
     Machine machine {4};
 

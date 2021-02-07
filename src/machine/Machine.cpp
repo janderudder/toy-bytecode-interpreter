@@ -27,7 +27,7 @@ auto Machine::run() noexcept -> Nat
     pc_offset_t       offset = 0;
 
     do {
-        offset = _exec(m_program[pc]);
+        offset = this->dispatch_instruction(m_program[pc]);
         pc += offset;
     }
     while (offset != 0);
@@ -66,7 +66,7 @@ auto Machine::read(Regindex rN) const -> Nat
 
 
 ////////////////////////////////////////////////////////////////////////////////
-auto Machine::_exec(Instruction const& instruction) noexcept -> pc_offset_t
+auto Machine::dispatch_instruction(Instruction const& instruction) noexcept -> pc_offset_t
 {
     auto const& [code, lhs, rhs] = instruction;
     return

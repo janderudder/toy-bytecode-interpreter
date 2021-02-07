@@ -21,14 +21,15 @@ public:
     auto read(Regindex) const -> Nat;
 
 private:
-    using program_counter_t         = u32_t;
-    using pc_offset_t               = program_counter_t;
+    using program_counter_t = u32_t;
+    using pc_offset_t       = program_counter_t;
+    using handle_instr_fn_t = auto (Machine::*)(Regindex, Nat) -> pc_offset_t;
 
-    auto _exec(Instruction const&) noexcept -> pc_offset_t;
+    std::vector<Nat>                            m_reg;
+    std::vector<Instruction>                    m_program;
+    std::array<handle_instr_fn_t, OpCode_count> m_dispatch_table;
 
-    std::vector<Nat> m_reg;
-    std::vector<Instruction> m_program;
-    std::array<pc_offset_t(Machine::*)(Regindex, Nat), 256> m_dispatch_table;
+    auto dispatch_instruction(Instruction const&) noexcept -> pc_offset_t;
 
     pc_offset_t add(Regindex, Nat);
     pc_offset_t addc(Regindex, Nat);

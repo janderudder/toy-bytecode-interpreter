@@ -16,3 +16,7 @@ enum class OpCode : u8_t
     SET,
     SETC,
 };
+
+
+
+constexpr size_t OpCode_count = 11;
