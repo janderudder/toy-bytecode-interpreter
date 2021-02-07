@@ -1,8 +1,8 @@
-#pragma once
-#include "bytecode/OpCode-output.hpp"
+#include "debugger/to_string-OpCode.hpp"
 
 
-inline const char* to_string(OpCode code) noexcept
+
+constexpr char const* to_string(OpCode code) noexcept
 {
     switch (code)
     {
@@ -11,9 +11,6 @@ inline const char* to_string(OpCode code) noexcept
     break;
     case OpCode::ADDC:
         return "ADDC";
-    break;
-    case OpCode::END:
-        return "END";
     break;
     case OpCode::EQ:
         return "EQ";
@@ -29,6 +26,12 @@ inline const char* to_string(OpCode code) noexcept
     break;
     case OpCode::NOP:
         return "NOP";
+    break;
+    case OpCode::RET:
+        return "RET";
+    break;
+    case OpCode::RETC:
+        return "RETC";
     break;
     case OpCode::SET:
         return "SET";
