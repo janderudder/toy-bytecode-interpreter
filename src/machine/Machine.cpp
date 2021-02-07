@@ -1,21 +1,29 @@
 #include "machine/Machine.hpp"
 
 
+// static member initialization
+////////////////////////////////////////////////////////////////////////////////
+std::array<Machine::handle_instr_fn_t, OpCode_count> Machine::m_dispatch_table
+{
+    add,
+    addc,
+    eq,
+    eqc,
+    jmp,
+    jmpc,
+    nop,
+    ret,
+    retc,
+    set,
+    setc
+};
 
+
+
+////////////////////////////////////////////////////////////////////////////////
 Machine::Machine(size_t reg_count):
     m_reg (reg_count, 0)
 {
-    m_dispatch_table[static_cast<size_t>(OpCode::ADD)]  = add;
-    m_dispatch_table[static_cast<size_t>(OpCode::ADDC)] = addc;
-    m_dispatch_table[static_cast<size_t>(OpCode::EQ)]   = eq;
-    m_dispatch_table[static_cast<size_t>(OpCode::EQC)]  = eqc;
-    m_dispatch_table[static_cast<size_t>(OpCode::JMP)]  = jmp;
-    m_dispatch_table[static_cast<size_t>(OpCode::JMPC)] = jmpc;
-    m_dispatch_table[static_cast<size_t>(OpCode::NOP)]  = nop;
-    m_dispatch_table[static_cast<size_t>(OpCode::RET)]  = ret;
-    m_dispatch_table[static_cast<size_t>(OpCode::RETC)] = retc;
-    m_dispatch_table[static_cast<size_t>(OpCode::SET)]  = set;
-    m_dispatch_table[static_cast<size_t>(OpCode::SETC)] = setc;
 }
 
 
@@ -66,7 +74,8 @@ auto Machine::read(Regindex rN) const -> Nat
 
 
 ////////////////////////////////////////////////////////////////////////////////
-auto Machine::dispatch_instruction(Instruction const& instruction) noexcept -> pc_offset_t
+auto Machine::dispatch_instruction(Instruction const& instruction) noexcept
+ -> pc_offset_t
 {
     auto const& [code, lhs, rhs] = instruction;
     return
