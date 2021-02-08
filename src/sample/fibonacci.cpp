@@ -1,15 +1,15 @@
-#include "sample/fibonacci.hpp"
-
-using namespace instruction_factory;
-
-constexpr auto R0 = Regindex{0};
-constexpr auto R1 = Regindex{1};
-constexpr auto R2 = Regindex{2};
-constexpr auto R3 = Regindex{3};
+#include "sample/programs.hpp"
 
 
 std::array<Instruction, 11> fibonacci_program(Nat n)
 {
+    constexpr auto R0 = Regindex{0};
+    constexpr auto R1 = Regindex{1};
+    constexpr auto R2 = Regindex{2};
+    constexpr auto R3 = Regindex{3};
+
+    using namespace instruction_factory;
+
     return
     {
         set(R0, n),

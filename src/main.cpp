@@ -1,9 +1,10 @@
 #include "bytecode/Instruction.hpp"
 #include "machine/Machine.hpp"
-#include "sample/fibonacci.hpp"
+#include "sample/programs.hpp"
 #include <array>
 #include <cstring>
 #include <iostream>
+
 
 
 size_t parse_cl_args(int const argc, char** const argv)
@@ -30,14 +31,11 @@ int main(int const argc, char** const argv)
 
     Machine machine {4};
 
-    machine.load(fibonacci_program, n);
+    auto const fibonacci = fibonacci_program(n);
 
-    auto const value = machine.run();
+    machine.load(fibonacci.cbegin(), fibonacci.cend());
 
-    if (value == Nat(-1)) {
-        std::cout << "error\n";
-    }
-    else {
-        std::cout << value << "\n";
-    }
+    auto const return_value = machine.run();
+
+    std::cout << return_value << "\n";
 }

@@ -1,4 +1,5 @@
 #include "machine/Machine.hpp"
+#include <functional>
 
 
 // static member initialization
@@ -24,6 +25,14 @@ std::array<Machine::handle_instr_fn_t, OpCode_count> Machine::m_dispatch_table
 Machine::Machine(size_t reg_count):
     m_reg (reg_count, 0)
 {
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+void Machine::load(std::initializer_list<Instruction> instructions)
+{
+    m_program = instructions;
 }
 
 

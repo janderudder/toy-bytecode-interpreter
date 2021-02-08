@@ -3,7 +3,7 @@
 #include "bytecode/types.hpp"
 #include "common/config.hpp"
 #include <array>
-#include <functional>
+#include <initializer_list>
 #include <vector>
 
 
@@ -12,8 +12,9 @@ class Machine
 public:
     Machine(size_t reg_count);
 
-     template <typename Fn, typename... Args>
-    void load(Fn&& prog_fn, Args&&... args);
+    template <typename It>
+    void load(It program_begin, It program_end);
+    void load(std::initializer_list<Instruction>);
 
     auto run() noexcept -> Nat;
 
@@ -50,9 +51,8 @@ private:
 
 // inline impl.
 ////////////////////////////////////////////////////////////////////////////////
- template <typename Fn, typename... Args>
-void Machine::load(Fn&& prog_fn, Args&&... args)
+ template <typename It>
+void Machine::load(It program_begin, It program_end)
 {
-    auto const& program = std::invoke(prog_fn, std::forward<Args>(args)...);
-    m_program = {std::cbegin(program), std::cend(program)};
+    m_program = {program_begin, program_end};
 }

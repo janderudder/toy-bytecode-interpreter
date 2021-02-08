@@ -7,6 +7,6 @@ using Nat = u32_t;
 
 struct Regindex
 {
-    u8_t const index = 0;
+    u8_t index = 0;
     operator u8_t() const { return index; }
 };
