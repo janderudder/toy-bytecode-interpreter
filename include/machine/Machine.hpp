@@ -26,12 +26,12 @@ private:
     using pc_offset_t       = program_counter_t;
     using handle_instr_fn_t = auto (Machine::*)(Regindex, Nat) -> pc_offset_t;
 
+    static std::array<handle_instr_fn_t, OpCode_count> m_dispatch_table;
+
     std::vector<Nat>         m_reg;
     std::vector<Instruction> m_program;
 
     auto dispatch_instruction(Instruction const&) noexcept -> pc_offset_t;
-
-    static std::array<handle_instr_fn_t, OpCode_count> m_dispatch_table;
 
     pc_offset_t add(Regindex, Nat);
     pc_offset_t addc(Regindex, Nat);
@@ -39,6 +39,8 @@ private:
     pc_offset_t eqc(Regindex, Nat);
     pc_offset_t jmp(Regindex, Nat);
     pc_offset_t jmpc(Regindex, Nat);
+    pc_offset_t mul(Regindex, Nat);
+    pc_offset_t mulc(Regindex, Nat);
     pc_offset_t nop(Regindex, Nat);
     pc_offset_t ret(Regindex, Nat);
     pc_offset_t retc(Regindex, Nat);

@@ -10,6 +10,8 @@ enum class OpCode : u8_t
     EQC,
     JMP,
     JMPC,
+    MUL,
+    MULC,
     NOP,
     RET,
     RETC,
@@ -19,4 +21,4 @@ enum class OpCode : u8_t
 
 
 
-constexpr size_t OpCode_count = 11;
+constexpr size_t OpCode_count = 13;

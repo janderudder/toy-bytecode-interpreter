@@ -21,6 +21,8 @@ Instruction eq(Regindex, Regindex);
 Instruction eq(Regindex, Nat);
 Instruction jmp(Regindex);
 Instruction jmp(Nat);
+Instruction mul(Regindex, Regindex);
+Instruction mul(Regindex, Nat);
 Instruction nop();
 Instruction ret(Regindex);
 Instruction ret(Nat);

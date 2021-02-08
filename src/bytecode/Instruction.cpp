@@ -48,6 +48,20 @@ Instruction jmp(Nat rhs_n)
 
 
 
+Instruction mul(Regindex lhs_reg, Regindex rhs_reg)
+{
+    return {OpCode::MUL, lhs_reg, static_cast<Nat>(rhs_reg)};
+}
+
+
+
+Instruction mul(Regindex lhs_reg, Nat rhs_n)
+{
+    return {OpCode::MULC, lhs_reg, rhs_n};
+}
+
+
+
 Instruction nop()
 {
     return {OpCode::NOP, 0, 0};

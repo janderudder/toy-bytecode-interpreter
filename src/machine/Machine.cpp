@@ -12,6 +12,8 @@ std::array<Machine::handle_instr_fn_t, OpCode_count> Machine::m_dispatch_table
     eqc,
     jmp,
     jmpc,
+    mul,
+    mulc,
     nop,
     ret,
     retc,
@@ -23,7 +25,8 @@ std::array<Machine::handle_instr_fn_t, OpCode_count> Machine::m_dispatch_table
 
 ////////////////////////////////////////////////////////////////////////////////
 Machine::Machine(size_t reg_count):
-    m_reg (reg_count, 0)
+    m_reg     (reg_count, Nat(0)),
+    m_program (1, instruction_factory::ret(0))
 {
 }
 
@@ -144,6 +147,22 @@ Machine::pc_offset_t Machine::jmpc(Regindex lhs, Nat rhs)
     return (std::int32_t(rhs) < 0)
         ? rhs
         : rhs+1;
+}
+
+
+
+Machine::pc_offset_t Machine::mul(Regindex lhs, Nat rhs)
+{
+    m_reg[lhs] *= m_reg[rhs];
+    return 1;
+}
+
+
+
+Machine::pc_offset_t Machine::mulc(Regindex lhs, Nat rhs)
+{
+    m_reg[lhs] *= rhs;
+    return 1;
 }
 
 

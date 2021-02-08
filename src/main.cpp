@@ -26,16 +26,13 @@ size_t parse_cl_args(int const argc, char** const argv)
 
 int main(int const argc, char** const argv)
 {
-    Nat n = parse_cl_args(argc, argv);
-    n = (n != Nat(-1)) ? n : 0;
-
     Machine machine {4};
 
-    auto const fibonacci = fibonacci_program(n);
-
-    machine.load(fibonacci.cbegin(), fibonacci.cend());
+    auto const mul2 = mul2_program(2, parse_cl_args(argc, argv));
+    machine.load(mul2.cbegin(), mul2.cend());
 
     auto const return_value = machine.run();
 
-    std::cout << return_value << "\n";
+    std::cout << int(return_value) << "\n";
+
 }
