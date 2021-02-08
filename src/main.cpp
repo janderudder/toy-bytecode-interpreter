@@ -1,4 +1,5 @@
 #include "bytecode/Instruction.hpp"
+#include "common/parse_numbers.hpp"
 #include "machine/Machine.hpp"
 #include "sample/programs.hpp"
 #include <array>
@@ -7,32 +8,23 @@
 
 
 
-size_t parse_cl_args(int const argc, char** const argv)
-{
-    if (argc < 2) {
-        return -1;
-    }
-
-    size_t const n = std::atoi(argv[1]);
-
-    if (n == 0 && std::strcmp(argv[1], "0")) {
-        std::cout << "warning, n = 0\n\n";
-    }
-
-    return n;
-}
-
-
-
 int main(int const argc, char** const argv)
 {
-    Machine machine {4};
+    auto const args = parse_numbers(argc-1, &argv[1], 2);
 
-    auto const mul2 = mul2_program(2, parse_cl_args(argc, argv));
-    machine.load(mul2.cbegin(), mul2.cend());
+    if (!args || args->size() < 2) {
+        std::cout << "please pass two numbers as arguments\n";
+        return 0;
+    }
+
+    auto const n   = (*args)[0];
+    auto const exp = (*args)[1];
+    auto const pow_prog = pow_program(n, exp);
+
+    Machine machine {4};
+    machine.load(pow_prog.cbegin(), pow_prog.cend());
 
     auto const return_value = machine.run();
 
     std::cout << int(return_value) << "\n";
-
 }
