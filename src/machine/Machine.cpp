@@ -44,13 +44,11 @@ void Machine::load(std::initializer_list<Instruction> instructions)
 auto Machine::run() noexcept -> Nat
 {
     program_counter_t pc     = 0;
-    pc_offset_t       offset = 0;
 
-    do {
-        offset = this->dispatch_instruction(m_program[pc]);
+    while (auto const offset = dispatch_instruction(m_program[pc]))
+    {
         pc += offset;
     }
-    while (offset != 0);
 
     auto const& last_instruction = m_program[pc];
 
