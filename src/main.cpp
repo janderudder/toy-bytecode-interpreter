@@ -10,15 +10,15 @@
 
 int main(int const argc, char** const argv)
 {
-    auto const args = parse_numbers(argc-1, &argv[1], 2);
+    auto const args = parse_numbers(argc, argv, 2);
 
-    if (!args || args->size() < 2) {
+    if (args.size() < 2) {
         std::cout << "please pass two numbers as arguments\n";
         return 0;
     }
 
-    auto const n   = (*args)[0];
-    auto const exp = (*args)[1];
+    auto const n   = args[0];
+    auto const exp = args[1];
     auto const pow_prog = pow_program(n, exp);
 
     Machine machine {4};
