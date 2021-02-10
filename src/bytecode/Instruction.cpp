@@ -20,6 +20,20 @@ Instruction add(Regindex lhs_reg, Nat rhs_n)
 
 
 
+Instruction div(Regindex lhs_reg, Regindex rhs_reg)
+{
+    return {OpCode::DIV, lhs_reg, static_cast<Nat>(rhs_reg)};
+}
+
+
+
+Instruction div(Regindex lhs_reg, Nat rhs_n)
+{
+    return {OpCode::DIVC, lhs_reg, rhs_n};
+}
+
+
+
 Instruction eq(Regindex lhs_reg, Regindex rhs_reg)
 {
     return {OpCode::EQ, lhs_reg, static_cast<Nat>(rhs_reg)};
@@ -44,6 +58,20 @@ Instruction jmp(Regindex rhs_reg)
 Instruction jmp(Nat rhs_n)
 {
     return {OpCode::JMPC, 0, rhs_n};
+}
+
+
+
+Instruction mod(Regindex lhs_reg, Regindex rhs_reg)
+{
+    return {OpCode::MOD, lhs_reg, static_cast<Nat>(rhs_reg)};
+}
+
+
+
+Instruction mod(Regindex lhs_reg, Nat rhs_n)
+{
+    return {OpCode::MODC, lhs_reg, rhs_n};
 }
 
 

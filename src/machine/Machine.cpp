@@ -8,10 +8,14 @@ std::array<Machine::handle_instr_fn_t, OpCode_count> Machine::m_dispatch_table
 {
     add,
     addc,
+    div,
+    divc,
     eq,
     eqc,
     jmp,
     jmpc,
+    mod,
+    modc,
     mul,
     mulc,
     nop,
@@ -83,6 +87,13 @@ auto Machine::read(Regindex rN) const -> Nat
 
 
 
+auto Machine::read(size_t rN) const -> Nat
+{
+    return m_reg[rN];
+}
+
+
+
 ////////////////////////////////////////////////////////////////////////////////
 auto Machine::dispatch_instruction(Instruction const& instruction) noexcept
  -> pc_offset_t
@@ -109,6 +120,21 @@ Machine::pc_offset_t Machine::addc(Regindex lhs, Nat rhs)
     return 1;
 }
 
+
+
+Machine::pc_offset_t Machine::div(Regindex lhs, Nat rhs)
+{
+    m_reg[lhs] /= m_reg[rhs];
+    return 1;
+}
+
+
+
+Machine::pc_offset_t Machine::divc(Regindex lhs, Nat rhs)
+{
+    m_reg[lhs] /= rhs;
+    return 1;
+}
 
 
 Machine::pc_offset_t Machine::eq(Regindex lhs, Nat rhs)
@@ -145,6 +171,22 @@ Machine::pc_offset_t Machine::jmpc(Regindex lhs, Nat rhs)
     return (std::int32_t(rhs) < 0)
         ? rhs
         : rhs+1;
+}
+
+
+
+Machine::pc_offset_t Machine::mod(Regindex lhs, Nat rhs)
+{
+    m_reg[lhs] %= m_reg[rhs];
+    return 1;
+}
+
+
+
+Machine::pc_offset_t Machine::modc(Regindex lhs, Nat rhs)
+{
+    m_reg[lhs] %= rhs;
+    return 1;
 }
 
 

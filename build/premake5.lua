@@ -9,7 +9,7 @@ project "interp-A-improving-API"
    language    "C++"
    cppdialect  "C++17"
    location    "../"
-   targetdir   "../bin/"
+   targetdir   "../bin"
    targetname  "interp-A-improving-API"
 
    files {
@@ -29,6 +29,7 @@ project "interp-A-improving-API"
       defines  { "DEBUG" }
       symbols  "On"
       optimize "Debug"
+      targetdir   "../bin/dbg"
 
    filter "configurations:release"
       symbols  "Off"

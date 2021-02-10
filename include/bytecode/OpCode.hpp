@@ -6,10 +6,14 @@ enum class OpCode : u8_t
 {
     ADD,
     ADDC,
+    DIV,
+    DIVC,
     EQ,
     EQC,
     JMP,
     JMPC,
+    MOD,
+    MODC,
     MUL,
     MULC,
     NOP,
@@ -21,4 +25,4 @@ enum class OpCode : u8_t
 
 
 
-constexpr size_t OpCode_count = 13;
+constexpr size_t OpCode_count = 17;

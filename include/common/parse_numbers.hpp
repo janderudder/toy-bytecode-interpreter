@@ -4,12 +4,12 @@
 #include <vector>
 
 
-inline auto parse_numbers(unsigned const argc, char** const argv, size_t count)
+inline auto parse_numbers(unsigned const argc, char** const argv)
  -> std::vector<Nat>
 {
     std::vector<Nat> numbers;
 
-    for (size_t i=1; i<argc && i<=count; ++i)
+    for (size_t i=1; i < argc; ++i)
     {
         numbers.push_back(std::atoi(argv[i]));
     }

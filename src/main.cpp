@@ -1,30 +1,28 @@
-#include "bytecode/Instruction.hpp"
 #include "common/parse_numbers.hpp"
 #include "machine/Machine.hpp"
 #include "sample/programs.hpp"
-#include <array>
-#include <cstring>
 #include <iostream>
-
 
 
 int main(int const argc, char** const argv)
 {
-    auto const args = parse_numbers(argc, argv, 2);
+    auto const args = parse_numbers(argc, argv);
 
-    if (args.size() < 2) {
-        std::cout << "please pass two numbers as arguments\n";
+    constexpr size_t needed_arg_count = 2;
+
+    if (args.size() < needed_arg_count) {
+        std::cout << "please provide " << needed_arg_count
+                  << " numbers as arguments\n";
         return 0;
     }
 
-    auto const n   = args[0];
-    auto const exp = args[1];
-    auto const pow_prog = pow_program(n, exp);
+    auto const prog = div_and_mod_program(args[0], args[1]);
 
-    Machine machine {4};
-    machine.load(pow_prog.cbegin(), pow_prog.cend());
+    Machine machine {2};
+    machine.load(prog.cbegin(), prog.cend());
 
-    auto const return_value = machine.run();
+    machine.run();
 
-    std::cout << int(return_value) << "\n";
+    std::cout << "r0: " << machine.read(0) << "\n";
+    std::cout << "r1: " << machine.read(1) << "\n";
 }

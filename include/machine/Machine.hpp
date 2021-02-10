@@ -20,6 +20,7 @@ public:
 
     void write(Regindex, Nat);
     auto read(Regindex) const -> Nat;
+    auto read(size_t) const -> Nat;
 
 private:
     using program_counter_t = u32_t;
@@ -35,10 +36,14 @@ private:
 
     pc_offset_t add(Regindex, Nat);
     pc_offset_t addc(Regindex, Nat);
+    pc_offset_t div(Regindex, Nat);
+    pc_offset_t divc(Regindex, Nat);
     pc_offset_t eq(Regindex, Nat);
     pc_offset_t eqc(Regindex, Nat);
     pc_offset_t jmp(Regindex, Nat);
     pc_offset_t jmpc(Regindex, Nat);
+    pc_offset_t mod(Regindex, Nat);
+    pc_offset_t modc(Regindex, Nat);
     pc_offset_t mul(Regindex, Nat);
     pc_offset_t mulc(Regindex, Nat);
     pc_offset_t nop(Regindex, Nat);
