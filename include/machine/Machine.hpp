@@ -1,7 +1,7 @@
 #pragma once
 #include "bytecode/Instruction.hpp"
 #include "bytecode/types.hpp"
-#include "common/config.hpp"
+#include "bytecode/config.hpp"
 #include <array>
 #include <initializer_list>
 #include <vector>

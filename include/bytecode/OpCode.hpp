@@ -1,5 +1,5 @@
 #pragma once
-#include "common/config.hpp"
+#include "bytecode/config.hpp"
 
 
 enum class OpCode : u8_t
