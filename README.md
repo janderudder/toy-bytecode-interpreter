@@ -3,7 +3,7 @@
 
 A very simplistic and small virtual machine interpreting a custom byte code.
 
-It has no call stack, no concept of RAM. Just a pointer to an array of instructions and registers that can store constants or pointers to C-strings.
+It has no call stack, no concept of RAM. Just a pointer to an array of instructions and registers that can store natural numbers or pointers to C-strings.
 
 
 
