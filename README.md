@@ -15,8 +15,6 @@ Every test that fails skips the next instruction.
 
 All jumps are relative, and can go backwards.
 
-The machine checks a condition for every jump instruction because, in order to accommodate the bytecode syntax, it treats positive and negative jump offsets differently.
-
 
 
 ## Instructions
