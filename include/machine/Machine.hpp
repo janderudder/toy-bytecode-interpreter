@@ -23,7 +23,7 @@ public:
     auto read(size_t) const -> Nat;
 
 private:
-    using program_counter_t = u32_t;
+    using program_counter_t = uint_t;
     using pc_offset_t       = program_counter_t;
     using handle_instr_fn_t = auto (Machine::*)(Regindex, Nat) -> pc_offset_t;
 
@@ -34,6 +34,7 @@ private:
 
     auto dispatch_instruction(Instruction const&) noexcept -> pc_offset_t;
 
+    // instruction handlers
     pc_offset_t add(Regindex, Nat);
     pc_offset_t addc(Regindex, Nat);
     pc_offset_t div(Regindex, Nat);
@@ -47,6 +48,8 @@ private:
     pc_offset_t mul(Regindex, Nat);
     pc_offset_t mulc(Regindex, Nat);
     pc_offset_t nop(Regindex, Nat);
+    pc_offset_t print(Regindex, Nat);
+    pc_offset_t printc(Regindex, Nat);
     pc_offset_t ret(Regindex, Nat);
     pc_offset_t retc(Regindex, Nat);
     pc_offset_t set(Regindex, Nat);

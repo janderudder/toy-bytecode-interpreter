@@ -17,6 +17,8 @@ enum class OpCode : u8_t
     MUL,
     MULC,
     NOP,
+    PRINT,
+    PRINTC,
     RET,
     RETC,
     SET,
@@ -25,4 +27,4 @@ enum class OpCode : u8_t
 
 
 
-constexpr size_t OpCode_count = 17;
+constexpr size_t OpCode_count = 19;

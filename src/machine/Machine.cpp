@@ -1,5 +1,6 @@
 #include "machine/Machine.hpp"
 #include <functional>
+#include <iostream>
 
 
 // static member initialization
@@ -19,6 +20,8 @@ std::array<Machine::handle_instr_fn_t, OpCode_count> Machine::m_dispatch_table
     mul,
     mulc,
     nop,
+    print,
+    printc,
     ret,
     retc,
     set,
@@ -159,18 +162,18 @@ Machine::pc_offset_t Machine::eqc(Regindex lhs, Nat rhs)
 
 Machine::pc_offset_t Machine::jmp(Regindex lhs, Nat rhs)
 {
-    return (std::int32_t(m_reg[rhs]) < 0)
-        ? m_reg[rhs]
-        : m_reg[rhs]+1;
+    return (signed_int_t(m_reg[rhs]) < 0)
+        ? pc_offset_t(m_reg[rhs])
+        : pc_offset_t(m_reg[rhs]+1);
 }
 
 
 
 Machine::pc_offset_t Machine::jmpc(Regindex lhs, Nat rhs)
 {
-    return (std::int32_t(rhs) < 0)
-        ? rhs
-        : rhs+1;
+    return (signed_int_t(rhs) < 0)
+        ? pc_offset_t(rhs)
+        : pc_offset_t(rhs+1);
 }
 
 
@@ -209,6 +212,21 @@ Machine::pc_offset_t Machine::mulc(Regindex lhs, Nat rhs)
 
 Machine::pc_offset_t Machine::nop(Regindex lhs, Nat rhs)
 {
+    return 1;
+}
+
+
+Machine::pc_offset_t Machine::print(Regindex lhs, Nat rhs)
+{
+    std::cout << reinterpret_cast<const char* const>(m_reg[rhs]);
+    return 1;
+}
+
+
+
+Machine::pc_offset_t Machine::printc(Regindex lhs, Nat rhs)
+{
+    std::cout << reinterpret_cast<const char* const>(rhs);
     return 1;
 }
 

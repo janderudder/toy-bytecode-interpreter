@@ -1,7 +1,7 @@
 #pragma once
 #include "bytecode/OpCode.hpp"
 #include "bytecode/types.hpp"
-
+#include <string_view>
 
 
 struct Instruction
@@ -10,7 +10,6 @@ struct Instruction
     Regindex lhs;
     Nat      rhs;
 };
-
 
 
 namespace instruction_factory
@@ -28,8 +27,11 @@ Instruction mod(Regindex, Nat);
 Instruction mul(Regindex, Regindex);
 Instruction mul(Regindex, Nat);
 Instruction nop();
+Instruction print(Regindex);
+Instruction print(std::string_view);
 Instruction ret(Regindex);
 Instruction ret(Nat);
 Instruction set(Regindex, Regindex);
 Instruction set(Regindex, Nat);
+Instruction set(Regindex, std::string_view);
 };

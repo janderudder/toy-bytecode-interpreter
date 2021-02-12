@@ -97,6 +97,20 @@ Instruction nop()
 
 
 
+Instruction print(Regindex rhs_reg)
+{
+    return {OpCode::PRINT, 0, static_cast<Nat>(rhs_reg)};
+}
+
+
+
+Instruction print(std::string_view rhs_str)
+{
+    return {OpCode::PRINTC, 0, reinterpret_cast<Nat const>(rhs_str.data())};
+}
+
+
+
 Instruction ret(Regindex rhs_reg)
 {
     return {OpCode::RET, 0, rhs_reg};
@@ -121,6 +135,13 @@ Instruction set(Regindex lhs_reg, Regindex rhs_reg)
 Instruction set(Regindex lhs_reg, Nat rhs_n)
 {
     return {OpCode::SETC, lhs_reg, rhs_n};
+}
+
+
+
+Instruction set(Regindex lhs_reg, std::string_view rhs_str)
+{
+    return {OpCode::SETC, lhs_reg, reinterpret_cast<Nat const>(rhs_str.data())};
 }
 
 
