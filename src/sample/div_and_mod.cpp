@@ -3,8 +3,7 @@
 
 std::vector<Instruction> div_and_mod_program(Nat a, Nat b)
 {
-    constexpr auto R0 = Regindex{0};
-    constexpr auto R1 = Regindex{1};
+    constexpr Regindex R0{0}, R1{1};
 
     using namespace instruction_factory;
 

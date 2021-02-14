@@ -3,10 +3,7 @@
 
 std::array<Instruction, 11> fibonacci_program(Nat n)
 {
-    constexpr auto R0 = Regindex{0};
-    constexpr auto R1 = Regindex{1};
-    constexpr auto R2 = Regindex{2};
-    constexpr auto R3 = Regindex{3};
+    constexpr Regindex R0{0}, R1{1}, R2{2}, R3{3};
 
     using namespace instruction_factory;
 
